@@ -21,6 +21,23 @@
   <meta property="og:description" content="Рассчитайте стоимость пола онлайн за 30 секунд.">
   <meta property="og:type" content="website">
 
+  <!-- SEO: карточка компании для Google (LocalBusiness). Это данные, а не скрипт — CSP её не блокирует.
+       Заполните реальными значениями; лишние поля удалите. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    "name": "Название Компании",
+    "url": "https://example.com/",
+    "telephone": "+1-000-000-0000",
+    "email": "info@example.com",
+    "areaServed": "Город и пригороды",
+    "address": { "@type": "PostalAddress", "addressLocality": "Город", "addressRegion": "Штат", "addressCountry": "US" },
+    "openingHours": "Mo-Sa 08:00-18:00",
+    "priceRange": "$$"
+  }
+  </script>
+
   <link rel="stylesheet" href="styles.css">
   <script src="config.js" defer></script>
   <script src="app.js" defer></script>
@@ -28,6 +45,12 @@
 <body>
 
 <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<!-- ============================================================
+     БЛОК: ПРОМО-ПОЛОСА — текст и дата окончания задаются в config.js (promo).
+     После даты окончания полоса скрывается сама. Не нужна — удалите блок.
+     ============================================================ -->
+<a id="promo" class="promo" href="#calc" hidden></a>
 
 <!-- ============================================================
      БЛОК: ШАПКА / НАВИГАЦИЯ
@@ -108,10 +131,37 @@
     <div>
       <h2>Калькулятор стоимости</h2>
       <p>Укажите размеры помещения — получите ориентировочную цену и отправьте её нам в один клик.</p>
+
+      <!-- ПОД-БЛОК: СЛАЙДЕР «ДО / ПОСЛЕ». Тяните ручку мышью, пальцем или стрелками.
+           Кнопки над слайдером переключают пары фото (data-pair). Замените .ph на <img>:
+           <img src="img/flake-after.webp" alt="Гараж после: серый флейк" width="800" height="600"> -->
+      <div class="ba" id="ba" data-pair="flake">
+        <div class="ba-layer ba-after">
+          <div class="ph ba-ph" data-pair="flake">ПОСЛЕ · img/flake-after.webp</div>
+          <div class="ph ba-ph" data-pair="metallic">ПОСЛЕ · img/metallic-after.webp</div>
+        </div>
+        <div class="ba-layer ba-before">
+          <div class="ph ba-ph" data-pair="flake">ДО · img/flake-before.webp</div>
+          <div class="ph ba-ph" data-pair="metallic">ДО · img/metallic-before.webp</div>
+        </div>
+        <span class="ba-tag l">До</span><span class="ba-tag r">После</span>
+        <div class="ba-pairs" role="radiogroup" aria-label="Вариант покрытия">
+          <button type="button" role="radio" aria-checked="true" data-pair="flake">Флейк</button>
+          <button type="button" role="radio" aria-checked="false" data-pair="metallic">Металлик</button>
+        </div>
+        <span class="ba-knob" id="ba-knob" role="slider" tabindex="0" aria-label="Сравнение до и после"
+              aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"></span>
+      </div>
     </div>
 
     <form id="calc-form" class="calc" novalidate>
-      <fieldset>
+      <!-- Пресеты размеров берутся из config.js (presets). Пустой список — блок скрывается. -->
+      <fieldset id="calc-presets-wrap">
+        <legend>Размер</legend>
+        <div id="calc-presets" class="seg"></div>
+      </fieldset>
+
+      <fieldset id="calc-manual">
         <legend>Площадь</legend>
         <div class="row">
           <label>Длина <input id="calc-length" type="number" inputmode="decimal" min="1" max="1000" step="0.1" placeholder="24"></label>
@@ -133,6 +183,7 @@
 
       <output id="calc-result" class="calc-result" aria-live="polite">Введите размеры</output>
       <p id="calc-note" class="muted small"></p>
+      <!-- Текст кнопки меняется по режиму: instant — «Получить точную цену», gate — «Показать цену» -->
       <a id="calc-to-form" class="btn" href="#contact">Получить точную цену</a>
     </form>
   </div>
@@ -178,9 +229,10 @@
   <div class="container">
     <h2>Отзывы</h2>
     <div class="cards">
-      <blockquote class="card"><p>«Текст отзыва клиента.»</p><cite>— Имя, район</cite></blockquote>
-      <blockquote class="card"><p>«Текст отзыва клиента.»</p><cite>— Имя, район</cite></blockquote>
-      <blockquote class="card"><p>«Текст отзыва клиента.»</p><cite>— Имя, район</cite></blockquote>
+      <!-- datetime — реальная дата отзыва (ГГГГ-ММ-ДД). На странице покажется «3 мес. назад» и не устареет. -->
+      <blockquote class="card"><p>«Текст отзыва клиента.»</p><cite>— Имя, район · <time class="ago" datetime="2026-07-29">июль 2026</time></cite></blockquote>
+      <blockquote class="card"><p>«Текст отзыва клиента.»</p><cite>— Имя, район · <time class="ago" datetime="2026-04-15">апрель 2026</time></cite></blockquote>
+      <blockquote class="card"><p>«Текст отзыва клиента.»</p><cite>— Имя, район · <time class="ago" datetime="2025-10-02">октябрь 2025</time></cite></blockquote>
     </div>
   </div>
 </section>
@@ -229,14 +281,17 @@
 
     <form id="lead-form" class="leadbox" novalidate>
       <label>Имя* <input name="name" required maxlength="80" autocomplete="name"></label>
-      <label>Телефон* <input name="phone" type="tel" required maxlength="25" autocomplete="tel" pattern="[0-9+()\-\s]{7,25}"></label>
+      <label>Телефон* <input name="phone" type="tel" required maxlength="25" autocomplete="tel" pattern="[0-9+\(\)\- ]{7,25}"></label>
       <label>Email <input name="email" type="email" maxlength="120" autocomplete="email"></label>
       <label>Комментарий <textarea name="message" rows="4" maxlength="1500"></textarea></label>
       <input type="hidden" name="estimate" id="lead-estimate">
+      <!-- Источник заявки: заполняется автоматически из ссылки (реклама Google, UTM-метки) -->
+      <input type="hidden" name="gclid"><input type="hidden" name="utm_source"><input type="hidden" name="utm_campaign">
       <div class="hp" aria-hidden="true">
         <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
       </div>
-      <label class="consent"><input type="checkbox" name="consent" required> Согласен на обработку персональных данных (<a href="privacy.html">политика</a>)</label>
+      <!-- Текст согласия отправляется вместе с заявкой — так остаётся доказательство согласия (TCPA/GDPR). -->
+      <label class="consent"><input type="checkbox" name="consent" required> <span id="consent-text">Согласен на обработку персональных данных и на звонки/SMS по моей заявке</span> (<a href="privacy.html">политика</a>)</label>
       <button class="btn" type="submit">Отправить</button>
       <p id="lead-status" class="small" role="status"></p>
     </form>
@@ -255,8 +310,14 @@
   </div>
 </footer>
 
-<!-- Липкая кнопка звонка на мобильных -->
-<a class="sticky-call" data-phone-link href="#contact">Позвонить</a>
+<!-- ============================================================
+     БЛОК: НИЖНЯЯ ПАНЕЛЬ (только мобильные). Появляется после первого экрана,
+     прячется, когда на экране форма заявки (там те же кнопки).
+     ============================================================ -->
+<div class="dock" id="dock" aria-hidden="true">
+  <a class="btn" data-phone-link href="#contact" tabindex="-1">Позвонить</a>
+  <a class="btn btn-ghost" href="#calc" tabindex="-1">Расчёт цены</a>
+</div>
 
 </body>
 </html>

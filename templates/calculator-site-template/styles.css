@@ -18,6 +18,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body { margin: 0; font: 16px/1.6 var(--font); color: var(--text); background: var(--bg); }
@@ -113,11 +114,50 @@ summary { cursor: pointer; font-weight: 700; }
 .site-footer { padding: 28px 0 90px; border-top: 1px solid var(--border); color: var(--muted); }
 .footer-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 
-/* Липкая кнопка звонка (только мобильные) */
-.sticky-call { display: none; }
+/* Нижняя панель (мобильные): появляется после первого экрана */
+.dock { display: none; }
 @media (max-width: 860px) {
   .calc-grid, .two-col { grid-template-columns: 1fr; }
   .section { padding: 56px 0; }
-  .sticky-call { display: block; position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 60; text-align: center;
-                 background: var(--brand); color: var(--brand-ink); font-weight: 800; padding: 14px; border-radius: var(--radius); text-decoration: none; }
+  .dock { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 60;
+          padding: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: calc(var(--radius) + 4px);
+          box-shadow: 0 8px 24px rgba(0,0,0,.18); transform: translateY(140%); transition: transform .25s ease; }
+  .dock.show { transform: none; }
+  .dock .btn { text-align: center; padding: 12px; }
 }
+@media (prefers-reduced-motion: reduce) { .dock { transition: none; } }
+
+/* Промо-полоса */
+.promo { display: block; background: var(--brand); color: var(--brand-ink); text-align: center; font-weight: 700;
+         padding: 10px 16px; text-decoration: none; font-size: .95rem; }
+
+/* Сегментированный выбор (пресеты размеров) */
+.seg { display: flex; flex-wrap: wrap; gap: 8px; }
+.seg label { display: block; }
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.seg span { display: block; padding: 10px 14px; border: 1px solid var(--border); border-radius: 999px; cursor: pointer; }
+.seg input:checked + span { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); font-weight: 700; }
+.seg input:focus-visible + span { outline: 3px solid var(--brand); outline-offset: 2px; }
+.calc-result.gated { font-size: 1rem; font-weight: 600; color: var(--muted); }
+
+/* Слайдер «до / после» */
+.ba { --x: 50%; position: relative; margin-top: 20px; border-radius: var(--radius); overflow: hidden; aspect-ratio: 4/3;
+      touch-action: pan-y; user-select: none; cursor: ew-resize; background: var(--border); }
+.ba-layer { position: absolute; inset: 0; }
+.ba-layer > * { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; aspect-ratio: auto; border-radius: 0; }
+.ba-after > .ph { background: #c9ccd3; }
+.ba-before > .ph { background: #8d9099; color: #fff; }
+.ba-before { clip-path: inset(0 calc(100% - var(--x)) 0 0); }
+.ba [data-pair] { display: none; }
+.ba[data-pair="flake"] .ba-layer > [data-pair="flake"],
+.ba[data-pair="metallic"] .ba-layer > [data-pair="metallic"] { display: grid; }
+.ba .ba-pairs button { display: inline-block; }
+.ba-tag { position: absolute; top: 12px; background: rgba(0,0,0,.55); color: #fff; font-size: .8rem; padding: 4px 10px; border-radius: 999px; }
+.ba-tag.l { left: 12px; } .ba-tag.r { right: 12px; }
+.ba-pairs { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px;
+            background: rgba(0,0,0,.55); padding: 4px; border-radius: 999px; }
+.ba-pairs button { border: 0; background: transparent; color: #fff; padding: 6px 12px; border-radius: 999px; cursor: pointer; font: inherit; font-size: .85rem; }
+.ba-pairs button[aria-checked="true"] { background: #fff; color: #111; font-weight: 700; }
+.ba-knob { position: absolute; top: 0; bottom: 0; left: var(--x); width: 4px; margin-left: -2px; background: #fff; }
+.ba-knob::after { content: "⟷"; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 40px; height: 40px;
+                  display: grid; place-items: center; background: #fff; color: #111; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,.3); }

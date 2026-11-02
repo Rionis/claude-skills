@@ -1,0 +1,123 @@
+/* ============================================================
+   ТЕМА — меняйте цвета и шрифт здесь, остальное подстроится.
+   ============================================================ */
+:root {
+  --brand: #e8a317;          /* основной цвет (кнопки, акценты) */
+  --brand-ink: #111;         /* текст на кнопке */
+  --bg: #ffffff;
+  --bg-alt: #f4f5f7;
+  --text: #1b1d22;
+  --muted: #5d6370;
+  --border: #dde0e6;
+  --radius: 12px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --max: 1120px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #121418; --bg-alt: #1a1d23; --text: #eceef2; --muted: #a3a9b5; --border: #2c3038; }
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; font: 16px/1.6 var(--font); color: var(--text); background: var(--bg); }
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+h1, h2, h3 { line-height: 1.2; margin: 0 0 .5em; }
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); }
+.container { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 16px; }
+.narrow { max-width: 760px; }
+.section { padding: 72px 0; scroll-margin-top: 64px; }
+.section-alt { background: var(--bg-alt); }
+.muted { color: var(--muted); }
+.small { font-size: .9rem; }
+.skip-link { position: absolute; left: -999px; }
+.skip-link:focus { left: 16px; top: 16px; z-index: 100; background: var(--bg); padding: 8px; }
+
+/* Кнопки */
+.btn { display: inline-block; background: var(--brand); color: var(--brand-ink); border: 0; border-radius: var(--radius);
+       padding: 14px 22px; font-weight: 700; text-decoration: none; cursor: pointer; font-size: 1rem; }
+.btn:hover { filter: brightness(1.05); }
+.btn:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+.btn-ghost { background: transparent; color: inherit; border: 2px solid currentColor; }
+.btn-small { padding: 8px 14px; }
+
+/* Шапка */
+.site-header { position: sticky; top: 0; z-index: 50; background: var(--bg); border-bottom: 1px solid var(--border); }
+.header-row { display: flex; align-items: center; justify-content: space-between; min-height: 64px; }
+.logo { font-weight: 800; font-size: 1.2rem; text-decoration: none; }
+.logo span { color: var(--brand); }
+.nav { display: flex; gap: 20px; align-items: center; }
+.nav a { text-decoration: none; }
+.nav-toggle { display: none; background: none; border: 1px solid var(--border); color: inherit; padding: 8px 12px; border-radius: 8px; }
+@media (max-width: 860px) {
+  .nav-toggle { display: block; }
+  .nav { display: none; position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; background: var(--bg);
+         padding: 16px; border-bottom: 1px solid var(--border); }
+  .nav.open { display: flex; }
+}
+
+/* Hero */
+.hero { padding: 96px 0 72px; background: linear-gradient(160deg, var(--bg-alt), var(--bg)); }
+.eyebrow { text-transform: uppercase; letter-spacing: .08em; color: var(--brand); font-weight: 700; margin: 0 0 8px; }
+.lead { font-size: 1.2rem; color: var(--muted); max-width: 640px; }
+.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin: 24px 0; }
+.trust-row { list-style: none; padding: 0; margin: 0; display: flex; gap: 28px; flex-wrap: wrap; color: var(--muted); }
+.trust-row strong { color: var(--text); font-size: 1.3rem; display: block; }
+
+/* Карточки */
+.cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; margin: 0; }
+.section-alt .card { background: var(--bg); }
+cite { color: var(--muted); font-style: normal; }
+
+/* Калькулятор */
+.calc-grid { display: grid; gap: 32px; grid-template-columns: 1fr 1.2fr; align-items: start; }
+.calc, .leadbox { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: grid; gap: 14px; }
+.calc fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 10px; }
+.calc legend { font-weight: 700; margin-bottom: 6px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+label { display: grid; gap: 4px; font-size: .95rem; }
+input, select, textarea { font: inherit; color: inherit; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; width: 100%; }
+.checks label, .consent { display: flex; gap: 8px; align-items: center; }
+.checks input, .consent input { width: auto; }
+.calc-result { display: block; font-size: 1.8rem; font-weight: 800; color: var(--text); padding: 12px 0; border-top: 1px solid var(--border); }
+
+/* Шаги */
+.steps { list-style: none; counter-reset: s; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.steps li { counter-increment: s; border-left: 3px solid var(--brand); padding-left: 16px; }
+.steps li::before { content: counter(s); font-weight: 800; color: var(--brand); font-size: 1.6rem; }
+
+/* Галерея */
+.gallery { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.gallery figure { margin: 0; }
+figcaption { color: var(--muted); font-size: .9rem; padding-top: 6px; }
+.ph { aspect-ratio: 3/2; background: var(--border); border-radius: var(--radius); display: grid; place-items: center; color: var(--muted); font-size: .85rem; }
+.ph.tall { aspect-ratio: 4/5; }
+
+/* Две колонки */
+.two-col { display: grid; gap: 32px; grid-template-columns: 1fr 1fr; align-items: start; }
+.checklist { padding-left: 1.2em; }
+
+/* FAQ */
+details { border-bottom: 1px solid var(--border); padding: 14px 0; }
+summary { cursor: pointer; font-weight: 700; }
+
+/* Форма */
+.hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.ok { color: #1f8a4c; }
+.err { color: #c0392b; }
+
+/* Подвал */
+.site-footer { padding: 28px 0 90px; border-top: 1px solid var(--border); color: var(--muted); }
+.footer-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+/* Липкая кнопка звонка (только мобильные) */
+.sticky-call { display: none; }
+@media (max-width: 860px) {
+  .calc-grid, .two-col { grid-template-columns: 1fr; }
+  .section { padding: 56px 0; }
+  .sticky-call { display: block; position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 60; text-align: center;
+                 background: var(--brand); color: var(--brand-ink); font-weight: 800; padding: 14px; border-radius: var(--radius); text-decoration: none; }
+}

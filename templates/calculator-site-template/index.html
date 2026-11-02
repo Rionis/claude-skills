@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--
+    БЕЗОПАСНОСТЬ: Content-Security-Policy.
+    Скрипты только из своих файлов (никакого inline-JS, никаких onclick="").
+    Если подключаете обработчик формы — добавьте его домен в connect-src,
+    например: connect-src 'self' https://formspree.io;
+    На хостинге лучше отдавать CSP HTTP-заголовком (см. README, раздел "Заголовки").
+  -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self' mailto:; base-uri 'self'; object-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <title>Название Компании — Эпоксидные полы в Городе</title>
+  <meta name="description" content="Эпоксидные и полиаспартовые полы для гаражей, подвалов и коммерческих помещений. Онлайн-калькулятор стоимости и бесплатный замер.">
+  <link rel="canonical" href="https://example.com/">
+  <meta property="og:title" content="Название Компании — Эпоксидные полы">
+  <meta property="og:description" content="Рассчитайте стоимость пола онлайн за 30 секунд.">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<!-- ============================================================
+     БЛОК: ШАПКА / НАВИГАЦИЯ
+     Пункты меню должны совпадать с id блоков ниже (#about, #calc ...).
+     ============================================================ -->
+<header class="site-header">
+  <div class="container header-row">
+    <a class="logo" href="#top">Название<span>Компании</span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Меню</button>
+    <nav id="nav" class="nav" aria-label="Основное меню">
+      <a href="#services">Услуги</a>
+      <a href="#calc">Калькулятор</a>
+      <a href="#process">Как работаем</a>
+      <a href="#gallery">Работы</a>
+      <a href="#about">О компании</a>
+      <a href="#faq">Вопросы</a>
+      <a class="btn btn-small" href="#contact">Заявка</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============================================================
+     БЛОК: HERO (первый экран) — главный оффер + 2 CTA
+     ============================================================ -->
+<section id="top" class="hero">
+  <div class="container">
+    <p class="eyebrow">Город и пригороды</p>
+    <h1>Эпоксидные полы, которые служат 15+ лет</h1>
+    <p class="lead">Гаражи, подвалы, коммерческие помещения. Монтаж за 1–2 дня, гарантия на работы.</p>
+    <div class="hero-cta">
+      <a class="btn" href="#calc">Рассчитать стоимость</a>
+      <a class="btn btn-ghost" data-phone-link href="#contact">Позвонить</a>
+    </div>
+    <ul class="trust-row">
+      <li><strong>500+</strong> объектов</li>
+      <li><strong>4.9★</strong> отзывы</li>
+      <li><strong>10 лет</strong> гарантии</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     БЛОК: УСЛУГИ / ИНФО — карточки. Копируйте <article> для новой услуги.
+     ============================================================ -->
+<section id="services" class="section">
+  <div class="container">
+    <h2>Услуги</h2>
+    <div class="cards">
+      <article class="card">
+        <h3>Флейк-покрытие</h3>
+        <p>Самый популярный вариант для гаража: прочно, нескользко, скрывает дефекты.</p>
+      </article>
+      <article class="card">
+        <h3>Металлик</h3>
+        <p>Эффект мрамора и глубины. Для шоурумов, домов, офисов.</p>
+      </article>
+      <article class="card">
+        <h3>Кварц</h3>
+        <p>Максимальная износостойкость для коммерческих и мокрых зон.</p>
+      </article>
+      <article class="card">
+        <h3>Коммерческие полы</h3>
+        <p>Склады, мастерские, кухни. Работаем в выходные без остановки бизнеса.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     БЛОК: КАЛЬКУЛЯТОР (#calc)
+     Варианты в списках заполняются автоматически из config.js.
+     Здесь менять только тексты.
+     ============================================================ -->
+<section id="calc" class="section section-alt">
+  <div class="container calc-grid">
+    <div>
+      <h2>Калькулятор стоимости</h2>
+      <p>Укажите размеры помещения — получите ориентировочную цену и отправьте её нам в один клик.</p>
+    </div>
+
+    <form id="calc-form" class="calc" novalidate>
+      <fieldset>
+        <legend>Площадь</legend>
+        <div class="row">
+          <label>Длина <input id="calc-length" type="number" inputmode="decimal" min="1" max="1000" step="0.1" placeholder="24"></label>
+          <label>Ширина <input id="calc-width" type="number" inputmode="decimal" min="1" max="1000" step="0.1" placeholder="24"></label>
+        </div>
+        <label>или сразу площадь (<span data-unit></span>)
+          <input id="calc-area" type="number" inputmode="decimal" min="1" step="1" placeholder="576">
+        </label>
+      </fieldset>
+
+      <label>Тип покрытия <select id="calc-system"></select></label>
+      <label>Помещение <select id="calc-space"></select></label>
+      <label>Состояние бетона <select id="calc-condition"></select></label>
+
+      <fieldset>
+        <legend>Дополнительно</legend>
+        <div id="calc-extras" class="checks"></div>
+      </fieldset>
+
+      <output id="calc-result" class="calc-result" aria-live="polite">Введите размеры</output>
+      <p id="calc-note" class="muted small"></p>
+      <a id="calc-to-form" class="btn" href="#contact">Получить точную цену</a>
+    </form>
+  </div>
+</section>
+
+<!-- ============================================================
+     БЛОК: ПРОЦЕСС / КАК РАБОТАЕМ — шаги
+     ============================================================ -->
+<section id="process" class="section">
+  <div class="container">
+    <h2>Как мы работаем</h2>
+    <ol class="steps">
+      <li><h3>Заявка</h3><p>Расчёт онлайн или звонок.</p></li>
+      <li><h3>Замер</h3><p>Бесплатно, проверяем влажность и бетон.</p></li>
+      <li><h3>Подготовка</h3><p>Шлифовка, ремонт трещин.</p></li>
+      <li><h3>Монтаж</h3><p>1–2 дня, чистая уборка после себя.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================================================
+     БЛОК: ГАЛЕРЕЯ — положите фото в папку img/ (webp/jpg, до 300 КБ).
+     Обязательно заполняйте alt.
+     ============================================================ -->
+<section id="gallery" class="section section-alt">
+  <div class="container">
+    <h2>Наши работы</h2>
+    <div class="gallery">
+      <figure><div class="ph">img/work-1.webp</div><figcaption>Гараж, флейк</figcaption></figure>
+      <figure><div class="ph">img/work-2.webp</div><figcaption>Подвал, металлик</figcaption></figure>
+      <figure><div class="ph">img/work-3.webp</div><figcaption>Мастерская, кварц</figcaption></figure>
+      <!-- Пример с реальным фото:
+      <figure><img src="img/work-1.webp" alt="Гараж с серым флейк-покрытием" loading="lazy" width="600" height="400"><figcaption>Гараж, флейк</figcaption></figure>
+      -->
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     БЛОК: ОТЗЫВЫ — только реальные отзывы с согласия клиента.
+     ============================================================ -->
+<section id="reviews" class="section">
+  <div class="container">
+    <h2>Отзывы</h2>
+    <div class="cards">
+      <blockquote class="card"><p>«Текст отзыва клиента.»</p><cite>— Имя, район</cite></blockquote>
+      <blockquote class="card"><p>«Текст отзыва клиента.»</p><cite>— Имя, район</cite></blockquote>
+      <blockquote class="card"><p>«Текст отзыва клиента.»</p><cite>— Имя, район</cite></blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     БЛОК: О КОМПАНИИ
+     ============================================================ -->
+<section id="about" class="section section-alt">
+  <div class="container two-col">
+    <div>
+      <h2>О компании</h2>
+      <p>Кто вы, сколько лет на рынке, лицензия и страховка, чем отличаетесь. 3–5 предложений.</p>
+      <ul class="checklist">
+        <li>Лицензия и страховка</li>
+        <li>Собственная бригада, без субподряда</li>
+        <li>Письменная гарантия</li>
+      </ul>
+    </div>
+    <div class="ph tall">img/team.webp</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     БЛОК: FAQ — нативный <details>, без JS
+     ============================================================ -->
+<section id="faq" class="section">
+  <div class="container narrow">
+    <h2>Частые вопросы</h2>
+    <details><summary>Сколько сохнет пол?</summary><p>Ходить — через 24 часа, заезжать на машине — через 3–5 дней.</p></details>
+    <details><summary>Будет ли скользко?</summary><p>Флейк и кварц имеют фактуру; в мокрые зоны добавляем противоскользящую добавку.</p></details>
+    <details><summary>Есть ли гарантия?</summary><p>Да, письменная гарантия на материалы и работы.</p></details>
+  </div>
+</section>
+
+<!-- ============================================================
+     БЛОК: КОНТАКТЫ / ФОРМА ЗАЯВКИ
+     Поле "website" — ловушка для ботов (honeypot), не удалять.
+     ============================================================ -->
+<section id="contact" class="section section-alt">
+  <div class="container two-col">
+    <div>
+      <h2>Заявка на бесплатный замер</h2>
+      <p>Ответим в течение рабочего дня.</p>
+      <p><a data-phone-link href="#">телефон</a><br><a data-email-link href="#">email</a><br><span data-city></span></p>
+    </div>
+
+    <form id="lead-form" class="leadbox" novalidate>
+      <label>Имя* <input name="name" required maxlength="80" autocomplete="name"></label>
+      <label>Телефон* <input name="phone" type="tel" required maxlength="25" autocomplete="tel" pattern="[0-9+()\-\s]{7,25}"></label>
+      <label>Email <input name="email" type="email" maxlength="120" autocomplete="email"></label>
+      <label>Комментарий <textarea name="message" rows="4" maxlength="1500"></textarea></label>
+      <input type="hidden" name="estimate" id="lead-estimate">
+      <div class="hp" aria-hidden="true">
+        <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
+      </div>
+      <label class="consent"><input type="checkbox" name="consent" required> Согласен на обработку персональных данных (<a href="privacy.html">политика</a>)</label>
+      <button class="btn" type="submit">Отправить</button>
+      <p id="lead-status" class="small" role="status"></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     БЛОК: ПОДВАЛ
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="container footer-row">
+    <span>© <span data-year></span> <span data-company></span></span>
+    <a href="privacy.html">Политика конфиденциальности</a>
+  </div>
+</footer>
+
+<!-- Липкая кнопка звонка на мобильных -->
+<a class="sticky-call" data-phone-link href="#contact">Позвонить</a>
+
+</body>
+</html>

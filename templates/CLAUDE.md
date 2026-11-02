@@ -24,6 +24,12 @@ This guide explains the template system for agents, commands, and standardized w
 
 **When to Use:** Creating any new agent in `agents/` directory
 
+### Website Templates
+
+**Location:** `templates/calculator-site-template/`
+
+**Usage:** Block-based single-page contractor site (hero, services, price calculator, process, gallery, reviews, about, FAQ, lead form). Plain HTML/CSS/JS editable in any text editor; all pricing lives in `config.js`. Ships CSP + security headers, honeypot form, XSS-safe rendering. Guide in Russian: `calculator-site-template/README.md`.
+
 ### Command Templates and Workflow Templates
 
 Not yet created. There is no command template or workflow template file in `templates/` today — when creating slash commands, copy an existing command in `commands/` (e.g. `commands/cs-backend-review.md` for the argument-hint + gate pattern) instead of looking for a template here.
